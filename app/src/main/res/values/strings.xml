@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">BootcampMarco2020</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="empty_username_error">Username is empty</string>
+    <string name="logged_area">Logged area</string>
 </resources>
