@@ -5,4 +5,6 @@
     <string name="login">Login</string>
     <string name="empty_username_error">Username is empty</string>
     <string name="logged_area">Logged area</string>
+    <string name="empty_password_error">Password is empty</string>
+    <string name="invalid_password_error">Password is invalid</string>
 </resources>

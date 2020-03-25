@@ -1,12 +1,7 @@
 package br.com.bootcampmarco2020
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.intent.rule.IntentsTestRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,24 +10,72 @@ import org.junit.runner.RunWith
 class LoginActivityTest {
 
     @get:Rule
-    val activityRule = ActivityTestRule(LoginActivity::class.java)
+    val activityRule = IntentsTestRule(LoginActivity::class.java)
 
     @Test
     fun givenInitialState_ShouldHaveEmptyUsernameAndPassword() {
-        onView(withId(R.id.username))
-            .check(matches(withText("")))
-        onView(withId(R.id.password))
-            .check(matches(withText("")))
+        loginAssert {
+            checkUsernameIsEmpty()
+            checkPasswordIsEmpty()
+        }
     }
 
     @Test
     fun givenUsernameIsEmpty_whenLogin_shouldShowEmptyUsernameError() {
-        onView(withId(R.id.password))
-            .perform(typeText("abCD@3223233"))
-        onView(withId(R.id.login))
-            .perform(click())
+        loginAct {
+            typePassword("abCD@3223233")
 
-        onView(withText(R.string.empty_username_error))
-            .check(matches(isDisplayed()))
+            clickLogin()
+        }
+
+        loginAssert {
+            checkMessageWasShown(R.string.empty_username_error)
+        }
+    }
+
+    @Test
+    fun givenPasswordIsEmpty_whenLogin_shouldShowEmptyPasswordError() {
+        loginAct {
+            typeUsername("wesjon")
+
+            clickLogin()
+        }
+
+        loginAssert {
+            checkMessageWasShown(R.string.empty_password_error)
+        }
+    }
+
+    @Test
+    fun givenPasswordIsInvalid_whenLogin_shouldShowInvalidPasswordError() {
+        loginAct {
+            typeUsername("wesjon")
+            typePassword("aabccc")
+
+            clickLogin()
+        }
+
+        loginAssert {
+            checkMessageWasShown(R.string.invalid_password_error)
+        }
+    }
+
+    @Test
+    fun givenUsernameAndPasswordAreValid_whenLogin_shouldGoToHomeActivity() {
+
+        loginArrange {
+            mockHomeActivityIntent()
+        }
+
+        loginAct {
+            typeUsername("wesjon")
+            typePassword("aA323!!@bccc")
+
+            clickLogin()
+        }
+
+        loginAssert {
+            checkHomeActivityWasCalled()
+        }
     }
 }
