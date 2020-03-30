@@ -7,4 +7,5 @@
     <string name="logged_area">Logged area</string>
     <string name="empty_password_error">Password is empty</string>
     <string name="invalid_password_error">Password is invalid</string>
+    <string name="generic_login_error">Username or Password invalid</string>
 </resources>

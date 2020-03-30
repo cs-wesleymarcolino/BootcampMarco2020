@@ -48,4 +48,11 @@ class PasswordValidatorTest {
 
         assertTrue(result)
     }
+
+    @Test
+    fun givenPasswordIsEmpty_whenValidate_shouldReturnFalse() {
+        val result = passwordValidator.isValid("")
+
+        assertFalse(result)
+    }
 }
